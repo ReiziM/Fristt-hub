@@ -1,0 +1,145 @@
+-- Frost Hub Ultimate
+-- Estrutura inspirada em Redz Hub + Banana Hub
+-- Atualização: 24/08/2025
+
+getgenv().Config = {
+    -- Farm
+    AutoFarm = false,
+    AutoFarmBoss = false,
+    AutoFarmChest = false,
+    AutoFarmMaterials = false,
+    AutoFarmBones = false,
+    AutoSeaHunt = false,
+    AutoQuest = false,
+    AutoQuestRace = false,
+
+    -- Combat
+    AutoClick = false,
+    AimBot = false,
+    ESP = false,
+    AutoKillPlayers = false,
+    KillAura = false,
+
+    -- Stats
+    AutoStats = false,
+    StatsMode = "Melee+Defense",
+
+    -- Fruits
+    AutoStoreFruit = false,
+    AutoCollectFruit = false,
+    AutoTeleportFruit = false,
+    AutoRollFruit = false,
+
+    -- Items / Shop
+    AutoBuyItems = false,
+    AutoBuySwords = false,
+    AutoBuyFightingStyle = false,
+    AutoBuyAccessories = false,
+
+    -- Raids / Raças
+    AutoRaid = false,
+    AutoAwakening = false,
+    AutoActivateV3 = false,
+    AutoActivateV4 = false,
+    AutoRaceProgression = false,
+
+    -- Teleports
+    TeleportIslands = "",
+    TeleportRaidRoom = false,
+    TeleportRaceDoor = false,
+
+    -- Misc
+    SpeedHack = false,
+    SuperJump = false,
+    NoClip = false,
+    Invisibility = false,
+    Fly = false,
+}
+
+-- UI Library
+local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/Kinlei/Orbit/main/UILib.lua"))()
+local Window = Library:MakeWindow({Name = "🌙 Frost Hub Ultimate", SaveConfig = true, ConfigFolder = "FrostHub"})
+
+-- Abas
+local Main = Window:MakeTab({Name = "Main"})
+local Combat = Window:MakeTab({Name = "Combat"})
+local Stats = Window:MakeTab({Name = "Stats"})
+local Fruits = Window:MakeTab({Name = "Fruits"})
+local Raids = Window:MakeTab({Name = "Raids & Races"})
+local Teleports = Window:MakeTab({Name = "Teleports"})
+local Misc = Window:MakeTab({Name = "Misc"})
+
+-- MAIN
+Main:AddToggle({Name = "Auto Farm NPCs", Default = false, Callback = function(v) Config.AutoFarm = v end})
+Main:AddToggle({Name = "Auto Farm Bosses", Default = false, Callback = function(v) Config.AutoFarmBoss = v end})
+Main:AddToggle({Name = "Auto Farm Baús", Default = false, Callback = function(v) Config.AutoFarmChest = v end})
+Main:AddToggle({Name = "Auto Farm Materiais (ossos/berries)", Default = false, Callback = function(v) Config.AutoFarmMaterials = v end})
+Main:AddToggle({Name = "Caçar no Mar", Default = false, Callback = function(v) Config.AutoSeaHunt = v end})
+Main:AddToggle({Name = "Auto Quest", Default = false, Callback = function(v) Config.AutoQuest = v end})
+Main:AddToggle({Name = "Auto Quest de Raça", Default = false, Callback = function(v) Config.AutoQuestRace = v end})
+
+-- COMBAT
+Combat:AddToggle({Name = "Auto Click", Default = false, Callback = function(v) Config.AutoClick = v end})
+Combat:AddToggle({Name = "AimBot", Default = false, Callback = function(v) Config.AimBot = v end})
+Combat:AddToggle({Name = "ESP (jogadores/NPCs)", Default = false, Callback = function(v) Config.ESP = v end})
+Combat:AddToggle({Name = "Auto Kill Players", Default = false, Callback = function(v) Config.AutoKillPlayers = v end})
+Combat:AddToggle({Name = "Kill Aura", Default = false, Callback = function(v) Config.KillAura = v end})
+
+-- STATS
+Stats:AddToggle({Name = "Auto Stats", Default = false, Callback = function(v) Config.AutoStats = v end})
+Stats:AddDropdown({
+    Name = "Distribuir Pontos",
+    Default = "Melee+Defense",
+    Options = {"Melee", "Defense", "Sword", "Gun", "Fruit", "Balanced", "Melee+Defense"},
+    Callback = function(v) Config.StatsMode = v end
+})
+
+-- FRUITS
+Fruits:AddToggle({Name = "Auto Store Fruit", Default = false, Callback = function(v) Config.AutoStoreFruit = v end})
+Fruits:AddToggle({Name = "Auto Coletar Frutas", Default = false, Callback = function(v) Config.AutoCollectFruit = v end})
+Fruits:AddToggle({Name = "Auto Teleport Frutas", Default = false, Callback = function(v) Config.AutoTeleportFruit = v end})
+Fruits:AddToggle({Name = "Auto Rolar Frutas", Default = false, Callback = function(v) Config.AutoRollFruit = v end})
+
+-- RAIDS & RACES
+Raids:AddToggle({Name = "Auto Raid", Default = false, Callback = function(v) Config.AutoRaid = v end})
+Raids:AddToggle({Name = "Auto Awakening", Default = false, Callback = function(v) Config.AutoAwakening = v end})
+Raids:AddToggle({Name = "Auto Ativar V3", Default = false, Callback = function(v) Config.AutoActivateV3 = v end})
+Raids:AddToggle({Name = "Auto Ativar V4", Default = false, Callback = function(v) Config.AutoActivateV4 = v end})
+Raids:AddToggle({Name = "Auto Completar Raças (Angel/Mink/etc)", Default = false, Callback = function(v) Config.AutoRaceProgression = v end})
+
+-- TELEPORTS
+Teleports:AddDropdown({
+    Name = "Teleport para Ilhas",
+    Default = "",
+    Options = {"Starter Island", "Second Sea", "Third Sea", "Raid Room", "Mirage Island"},
+    Callback = function(v) Config.TeleportIslands = v end
+})
+Teleports:AddButton({Name = "Teleport Porta da Raça", Callback = function() Config.TeleportRaceDoor = true end})
+
+-- MISC
+Misc:AddToggle({Name = "Speed Hack", Default = false, Callback = function(v) Config.SpeedHack = v end})
+Misc:AddToggle({Name = "Super Jump", Default = false, Callback = function(v) Config.SuperJump = v end})
+Misc:AddToggle({Name = "NoClip", Default = false, Callback = function(v) Config.NoClip = v end})
+Misc:AddToggle({Name = "Invisibilidade", Default = false, Callback = function(v) Config.Invisibility = v end})
+Misc:AddToggle({Name = "Fly", Default = false, Callback = function(v) Config.Fly = v end})
+
+-- LOOP EXECUTOR
+task.spawn(function()
+    while task.wait() do
+        if Config.AutoFarm then
+            -- lógica para farm NPC + boss
+        end
+        if Config.AutoQuest then
+            -- lógica de aceitar/completar quests
+        end
+        if Config.AutoStoreFruit then
+            -- lógica para armazenar frutas
+        end
+        if Config.AutoStats then
+            -- distribuir pontos de acordo com Config.StatsMode
+        end
+        if Config.AutoActivateV4 then
+            -- ativar V4 quando barra cheia
+        end
+    end
+end)
